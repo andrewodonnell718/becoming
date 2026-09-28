@@ -1,0 +1,234 @@
+/* All Round Gothic is used for letters and spaces only. Numbers and punctuation fall back
+   to Montserrat (the Fontspring DEMO files draw some of them as a "DEMO" watermark).
+   With the licensed font: delete the unicode-range lines and set --font-num: var(--font-head). */
+@font-face {
+  font-family: 'All Round Gothic';
+  src: url('/fonts/allroundgothic-xlig.woff2') format('woff2');
+  font-weight: 200;
+  font-display: swap;
+  unicode-range: U+0020, U+0041-005A, U+0061-007A;
+}
+@font-face {
+  font-family: 'All Round Gothic';
+  src: url('/fonts/allroundgothic-lig.woff2') format('woff2');
+  font-weight: 300;
+  font-display: swap;
+  unicode-range: U+0020, U+0041-005A, U+0061-007A;
+}
+@font-face {
+  font-family: 'All Round Gothic';
+  src: url('/fonts/allroundgothic-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+0020, U+0041-005A, U+0061-007A;
+}
+
+:root {
+  color-scheme: dark;
+  --font-head: 'All Round Gothic', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Montserrat Variable', 'Montserrat', system-ui, sans-serif;
+  --font-num: var(--font-body);
+
+  --bg: #0b0f1a;
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.74);
+  --text-3: rgba(255, 255, 255, 0.52);
+
+  --glass: rgba(255, 255, 255, 0.075);
+  --glass-hover: rgba(255, 255, 255, 0.11);
+  --glass-strong: rgba(20, 26, 44, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-edge: rgba(255, 255, 255, 0.32);
+  --blur: blur(22px) saturate(160%);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+
+  --accent: #b4ccff;
+  --accent-2: #e2d6ff;
+  --warm: #f2c58a;
+  --good: #5fd39a;
+  --bad: #ff8a8a;
+  --accent-grad: linear-gradient(90deg, var(--accent), var(--accent-2));
+
+  --radius: 26px;
+  --radius-sm: 16px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3, .head {
+  font-family: var(--font-head);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.1;
+}
+h1 { font-size: 30px; font-weight: 300; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+p { margin: 0; }
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+input, select, textarea { font: inherit; color: inherit; }
+
+/* ---------- background ---------- */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--bg) url('/bg-poster.jpg') center / cover no-repeat;
+}
+.bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease);
+}
+.bg video.ready { opacity: 1; }
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(11, 15, 26, 0.25), rgba(11, 15, 26, 0.7) 70%),
+    linear-gradient(180deg, rgba(11, 15, 26, 0.35), rgba(11, 15, 26, 0.8));
+}
+
+/* ---------- glass ---------- */
+.glass {
+  position: relative;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--glass-edge);
+}
+.glass.pad { padding: 20px; }
+
+/* ---------- layout ---------- */
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 100%;
+  padding: calc(var(--safe-top) + 20px) 16px calc(var(--safe-bottom) + 110px);
+}
+.screen { display: flex; flex-direction: column; gap: 16px; animation: rise 0.5s var(--ease); }
+.row { display: flex; align-items: center; gap: 12px; }
+.between { justify-content: space-between; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.muted { color: var(--text-2); }
+.faint { color: var(--text-3); }
+.small { font-size: 13px; }
+.tiny { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.num { font-family: var(--font-num); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.section-title { display: flex; align-items: baseline; justify-content: space-between; padding: 6px 4px 0; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-align: center;
+  line-height: 1.3;
+  font-weight: 600;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  transition: transform 0.2s var(--ease), background 0.2s;
+}
+.btn:active { transform: scale(0.96); }
+.btn.primary {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0f1a;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.btn.danger { color: var(--bad); }
+.btn.block { width: 100%; }
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  transition: transform 0.2s var(--ease), background 0.2s;
+}
+.icon-btn:active { transform: scale(0.9); }
+
+/* ---------- forms ---------- */
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field > span { font-size: 12px; font-weight: 600; color: var(--text-2); letter-spacing: 0.04em; text-transform: uppercase; }
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
+.segmented {
+  display: flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+}
+.segmented button {
+  flex: 1;
+  height: 36px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-2);
+  transition: background 0.3s var(--ease), color 0.3s;
+}
+.segmented button.on { background: rgba(255, 255, 255, 0.18); color: var(--text); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
